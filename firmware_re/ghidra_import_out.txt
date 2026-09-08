@@ -1,0 +1,102 @@
+﻿INFO  Using log config file: jar:file:/C:/Users/Timeroot/azoth/firmware_re/ghidra_dist/ghidra_12.1.3_PUBLIC/Ghidra/Framework/Generic/lib/Generic.jar!/generic.log4j.xml (LoggingInitialization)  
+INFO  Using log file: C:\Users\Timeroot\azoth\firmware_re\ghidra_analyze.log (LoggingInitialization)  
+INFO  Loading user preferences: C:\Users\Timeroot\AppData\Roaming\ghidra\ghidra_12.1.3_PUBLIC\preferences (Preferences)  
+INFO  Searching for classes... (ClassSearcher)  
+INFO  Class search complete (607 ms) (ClassSearcher)  
+analyzeHeadless.bat : WARNING: Final field name in class ghidra.util.charset.CharsetInfo has been mutated reflectively by class 
+com.google.gson.internal.bind.ReflectiveTypeAdapterFactory$2 in unnamed module @73e9cf30 
+(file:/C:/Users/Timeroot/azoth/firmware_re/ghidra_dist/ghidra_12.1.3_PUBLIC/Ghidra/Framework/Generic/lib/gson-2.13.2.jar)
+At line:1 char:630
++ ... | Out-Null; & $hl $proj azoth -import $bin -processor "ARM:LE:32:Cort ...
++                 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (WARNING: Final ...son-2.13.2.jar):String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+WARNING: Use --enable-final-field-mutation=ALL-UNNAMED to avoid a warning
+WARNING: Mutating final fields will be blocked in a future release unless final field mutation is enabled
+INFO  Initializing SSL Context (DefaultSSLContextInitializer)  
+INFO  Initializing Random Number Generator... (SecureRandomFactory)  
+INFO  Random Number Generator initialization complete: SHA1PRNG (SecureRandomFactory)  
+INFO  Trust manager disabled, cacerts have not been set (DefaultTrustManagerFactory)  
+INFO  Starting cache cleanup: C:\Users\Timeroot\AppData\Local\ghidra\fscache2 (FileCacheMaintenanceDaemon)  
+INFO  Finished cache cleanup, estimated storage used: 0 (FileCacheMaintenanceDaemon)  
+INFO  Headless startup complete (3036 ms) (AnalyzeHeadless)  
+INFO  Class searcher loaded 211 extension points (114 false positives) (ClassSearcher)  
+WARNING: A terminally deprecated method in sun.misc.Unsafe has been called
+WARNING: sun.misc.Unsafe::staticFieldOffset has been called by org.apache.felix.framework.util.SecureAction 
+(file:/C:/Users/Timeroot/azoth/firmware_re/ghidra_dist/ghidra_12.1.3_PUBLIC/Ghidra/Features/Base/lib/org.apache.felix.framework-7.0.5.jar)
+WARNING: Please consider reporting this to the maintainers of class org.apache.felix.framework.util.SecureAction
+WARNING: sun.misc.Unsafe::staticFieldOffset will be removed in a future release
+INFO  HEADLESS Script Paths:
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\BSim\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\SwiftDemangler\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Processors\DATA\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\FileFormats\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\Decompiler\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\SystemEmulation\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\WildcardAssembler\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\GnuDemangler\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\FunctionID\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\PDB\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Debug\Debugger\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\DecompilerDependent\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\PyGhidra\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\BytePatterns\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Processors\8051\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\Base\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Processors\JVM\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Processors\PIC\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\MicrosoftCodeAnalyzer\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Debug\Debugger-rmi-trace\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Processors\Atmel\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\VersionTracking\ghidra_scripts (HeadlessAnalyzer)  
+INFO  HEADLESS: execution starts (HeadlessAnalyzer)  
+INFO  Creating project: C:\Users\Timeroot\azoth\firmware_re\ghidra_proj\azoth (HeadlessAnalyzer)  
+INFO  Creating project: C:\Users\Timeroot\azoth\firmware_re\ghidra_proj\azoth (DefaultProject)  
+INFO  REPORT: Processing input files:  (HeadlessAnalyzer)  
+INFO       project: C:\Users\Timeroot\azoth\firmware_re\ghidra_proj\azoth (HeadlessAnalyzer)  
+INFO  IMPORTING: file:///C:/Users/Timeroot/azoth/M701_fw/M701_FirmwareAutoUpdate_1.0.0.14/FirmwareAutoUpdate_1.0.0.14/Firmware/M701_KEYBOARD_V04_00_13.bin (HeadlessAnalyzer)  
+INFO  Successfully applied "-loader-baseAddr" to "Base Address" (old: "null", new: "0x00000000") (ProgramLoader)  
+INFO  Using Loader: Raw Binary (ProgramLoader)  
+INFO  Using Language/Compiler: ARM:LE:32:Cortex:default (ProgramLoader)  
+INFO  Using Library Search Path: [., C:\Windows\SysWOW64, C:\Program Files\Java\jdk-26.0.1\bin, C:\Windows\Sun\Java\bin, C:\Windows\system32, C:\Windows, C:\Program Files\Common Files\Oracle\Java\javapath, C:\Windows\System32\Wbem, C:\Windows\System32\WindowsPowerShell\v1.0\, C:\Windows\System32\OpenSSH\, C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common, C:\Program Files\NVIDIA Corporation\NVIDIA App\NvDLISR, C:\Program Files\Git\cmd, C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\, C:\Program Files\Tailscale\, C:\Program Files\GitHub CLI\, C:\Program Files\dotnet\, C:\Users\Timeroot\AppData\Local\Programs\OpenAI\Codex\bin, C:\Users\Timeroot\.cargo\bin, C:\Users\Timeroot\.elan\bin, C:\Users\Timeroot\AppData\Local\Microsoft\WindowsApps, C:\Users\Timeroot\AppData\Local\GitHubDesktop\bin, C:\Users\Timeroot\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\Scripts, C:\Users\Timeroot\AppData\Local\PowerToys\DSCModules\, C:\Users\Timeroot\AppData\Local\Microsoft\WinGet\Links, C:\Users\Timeroot\.local\bin, C:\Users\Timeroot\AppData\Local\node, C:\Users\Timeroot\AppData\Local\Programs\Microsoft VS Code\bin] (ProgramLoader)  
+INFO  IMPORTING: Loaded 0 additional files (HeadlessAnalyzer)  
+INFO  ANALYZING all memory and code: file:///C:/Users/Timeroot/azoth/M701_fw/M701_FirmwareAutoUpdate_1.0.0.14/FirmwareAutoUpdate_1.0.0.14/Firmware/M701_KEYBOARD_V04_00_13.bin (HeadlessAnalyzer)  
+INFO  Packed database cache: C:\Users\Timeroot\AppData\Local\ghidra\packed-db-cache (PackedDatabaseCache)  
+INFO  Applied data type archive: generic_clib (ApplyDataArchiveAnalyzer)  
+INFO  -----------------------------------------------------
+    ARM Constant Reference Analyzer            2.779 secs
+    ARM Symbol                                 0.000 secs
+    ASCII Strings                              0.278 secs
+    Apply Data Archives                        0.254 secs
+    Call-Fixup Installer                       0.029 secs
+    Create Address Tables                      0.052 secs
+    Create Address Tables - One Time           0.188 secs
+    Create Function                            0.349 secs
+    Data Reference                             0.102 secs
+    Decompiler Switch Analysis                37.947 secs
+    Demangler GNU                              0.059 secs
+    Disassemble                                0.907 secs
+    Disassemble Entry Points                   0.044 secs
+    Embedded Media                             0.018 secs
+    External Entry References                  0.000 secs
+    Function ID                                0.044 secs
+    Function Start Pre Search                  0.018 secs
+    Function Start Search                      0.092 secs
+    Function Start Search After Code           0.253 secs
+    Function Start Search After Data           0.009 secs
+    Function Start Search delayed - One Time   0.027 secs
+    Non-Returning Functions - Discovered       0.125 secs
+    Reference                                  0.411 secs
+    Shared Return Calls                        0.079 secs
+    Stack                                      2.127 secs
+    Subroutine References                      0.531 secs
+    Subroutine References - One Time           0.001 secs
+-----------------------------------------------------
+     Total Time   46 secs
+-----------------------------------------------------
+ (AutoAnalysisManager)  
+INFO  REPORT: Analysis succeeded for file: file:///C:/Users/Timeroot/azoth/M701_fw/M701_FirmwareAutoUpdate_1.0.0.14/FirmwareAutoUpdate_1.0.0.14/Firmware/M701_KEYBOARD_V04_00_13.bin (HeadlessAnalyzer)  
+INFO  /M701_KEYBOARD_V04_00_13.bin: file created (Timeroot) (LocalFileSystem)  
+INFO  REPORT: Save succeeded for: /M701_KEYBOARD_V04_00_13.bin (azoth:/M701_KEYBOARD_V04_00_13.bin) (HeadlessAnalyzer)  
+INFO  REPORT: Import succeeded (HeadlessAnalyzer)  

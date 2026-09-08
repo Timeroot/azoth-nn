@@ -1,0 +1,93 @@
+2026-09-07 14:04:48 INFO  (LoggingInitialization) Using log config file: jar:file:/C:/Users/Timeroot/azoth/firmware_re/ghidra_dist/ghidra_12.1.3_PUBLIC/Ghidra/Framework/Generic/lib/Generic.jar!/generic.log4j.xml  
+2026-09-07 14:04:48 INFO  (LoggingInitialization) Using log file: C:\Users\Timeroot\azoth\firmware_re\ghidra_analyze.log  
+2026-09-07 14:04:48 DEBUG (GhidraObjectInputFilter) Including serial input filter: FileSystem/data/client.rmi.serial.filter  
+2026-09-07 14:04:48 INFO  (Preferences) Loading user preferences: C:\Users\Timeroot\AppData\Roaming\ghidra\ghidra_12.1.3_PUBLIC\preferences  
+2026-09-07 14:04:48 INFO  (ClassSearcher) Searching for classes...  
+2026-09-07 14:04:49 INFO  (ClassSearcher) Class search complete (607 ms)  
+2026-09-07 14:04:49 INFO  (DefaultSSLContextInitializer) Initializing SSL Context  
+2026-09-07 14:04:49 INFO  (SecureRandomFactory) Initializing Random Number Generator...  
+2026-09-07 14:04:49 INFO  (SecureRandomFactory) Random Number Generator initialization complete: SHA1PRNG  
+2026-09-07 14:04:49 INFO  (DefaultTrustManagerFactory) Trust manager disabled, cacerts have not been set  
+2026-09-07 14:04:49 INFO  (FileCacheMaintenanceDaemon) Starting cache cleanup: C:\Users\Timeroot\AppData\Local\ghidra\fscache2  
+2026-09-07 14:04:49 INFO  (FileCacheMaintenanceDaemon) Finished cache cleanup, estimated storage used: 0  
+2026-09-07 14:04:50 INFO  (AnalyzeHeadless) Headless startup complete (3036 ms)  
+2026-09-07 14:04:50 INFO  (ClassSearcher) Class searcher loaded 211 extension points (114 false positives)  
+2026-09-07 14:04:50 INFO  (HeadlessAnalyzer) HEADLESS Script Paths:
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\BSim\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\SwiftDemangler\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Processors\DATA\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\FileFormats\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\Decompiler\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\SystemEmulation\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\WildcardAssembler\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\GnuDemangler\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\FunctionID\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\PDB\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Debug\Debugger\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\DecompilerDependent\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\PyGhidra\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\BytePatterns\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Processors\8051\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\Base\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Processors\JVM\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Processors\PIC\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\MicrosoftCodeAnalyzer\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Debug\Debugger-rmi-trace\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Processors\Atmel\ghidra_scripts
+    C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\VersionTracking\ghidra_scripts  
+2026-09-07 14:04:50 INFO  (HeadlessAnalyzer) HEADLESS: execution starts  
+2026-09-07 14:04:50 INFO  (HeadlessAnalyzer) Creating project: C:\Users\Timeroot\azoth\firmware_re\ghidra_proj\azoth  
+2026-09-07 14:04:50 DEBUG (DefaultProjectManager) No tools found; Installing default tools  
+2026-09-07 14:04:50 DEBUG (DefaultProjectManager) 	no recent project directories found  
+2026-09-07 14:04:50 INFO  (DefaultProject) Creating project: C:\Users\Timeroot\azoth\firmware_re\ghidra_proj\azoth  
+2026-09-07 14:04:50 INFO  (HeadlessAnalyzer) REPORT: Processing input files:   
+2026-09-07 14:04:50 INFO  (HeadlessAnalyzer)      project: C:\Users\Timeroot\azoth\firmware_re\ghidra_proj\azoth  
+2026-09-07 14:04:50 INFO  (HeadlessAnalyzer) IMPORTING: file:///C:/Users/Timeroot/azoth/M701_fw/M701_FirmwareAutoUpdate_1.0.0.14/FirmwareAutoUpdate_1.0.0.14/Firmware/M701_KEYBOARD_V04_00_13.bin  
+2026-09-07 14:04:51 INFO  (ProgramLoader) Successfully applied "-loader-baseAddr" to "Base Address" (old: "null", new: "0x00000000")  
+2026-09-07 14:04:51 INFO  (ProgramLoader) Using Loader: Raw Binary  
+2026-09-07 14:04:51 INFO  (ProgramLoader) Using Language/Compiler: ARM:LE:32:Cortex:default  
+2026-09-07 14:04:51 INFO  (ProgramLoader) Using Library Search Path: [., C:\Windows\SysWOW64, C:\Program Files\Java\jdk-26.0.1\bin, C:\Windows\Sun\Java\bin, C:\Windows\system32, C:\Windows, C:\Program Files\Common Files\Oracle\Java\javapath, C:\Windows\System32\Wbem, C:\Windows\System32\WindowsPowerShell\v1.0\, C:\Windows\System32\OpenSSH\, C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common, C:\Program Files\NVIDIA Corporation\NVIDIA App\NvDLISR, C:\Program Files\Git\cmd, C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\, C:\Program Files\Tailscale\, C:\Program Files\GitHub CLI\, C:\Program Files\dotnet\, C:\Users\Timeroot\AppData\Local\Programs\OpenAI\Codex\bin, C:\Users\Timeroot\.cargo\bin, C:\Users\Timeroot\.elan\bin, C:\Users\Timeroot\AppData\Local\Microsoft\WindowsApps, C:\Users\Timeroot\AppData\Local\GitHubDesktop\bin, C:\Users\Timeroot\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\Scripts, C:\Users\Timeroot\AppData\Local\PowerToys\DSCModules\, C:\Users\Timeroot\AppData\Local\Microsoft\WinGet\Links, C:\Users\Timeroot\.local\bin, C:\Users\Timeroot\AppData\Local\node, C:\Users\Timeroot\AppData\Local\Programs\Microsoft VS Code\bin]  
+2026-09-07 14:04:51 INFO  (HeadlessAnalyzer) IMPORTING: Loaded 0 additional files  
+2026-09-07 14:04:51 INFO  (HeadlessAnalyzer) ANALYZING all memory and code: file:///C:/Users/Timeroot/azoth/M701_fw/M701_FirmwareAutoUpdate_1.0.0.14/FirmwareAutoUpdate_1.0.0.14/Firmware/M701_KEYBOARD_V04_00_13.bin  
+2026-09-07 14:05:18 DEBUG (FidAnalyzer) No FID Libraries apply for language ARM:LE:32:Cortex  
+2026-09-07 14:05:18 INFO  (PackedDatabaseCache) Packed database cache: C:\Users\Timeroot\AppData\Local\ghidra\packed-db-cache  
+2026-09-07 14:05:18 DEBUG (PackedDatabaseCache) Caching packed database: C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\Base\data\typeinfo\generic\generic_clib.gdt  
+2026-09-07 14:05:18 DEBUG (PackedDatabase) Unpacking database C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\Base\data\typeinfo\generic\generic_clib.gdt -> C:\Users\Timeroot\AppData\Local\ghidra\packed-db-cache\pdb66792695\db.1.gbf  
+2026-09-07 14:05:18 DEBUG (PackedDatabaseCache) Cache update completed: C:\Users\Timeroot\azoth\firmware_re\ghidra_dist\ghidra_12.1.3_PUBLIC\Ghidra\Features\Base\data\typeinfo\generic\generic_clib.gdt  
+2026-09-07 14:05:18 INFO  (ApplyDataArchiveAnalyzer) Applied data type archive: generic_clib  
+2026-09-07 14:05:38 INFO  (AutoAnalysisManager) -----------------------------------------------------
+    ARM Constant Reference Analyzer            2.779 secs
+    ARM Symbol                                 0.000 secs
+    ASCII Strings                              0.278 secs
+    Apply Data Archives                        0.254 secs
+    Call-Fixup Installer                       0.029 secs
+    Create Address Tables                      0.052 secs
+    Create Address Tables - One Time           0.188 secs
+    Create Function                            0.349 secs
+    Data Reference                             0.102 secs
+    Decompiler Switch Analysis                37.947 secs
+    Demangler GNU                              0.059 secs
+    Disassemble                                0.907 secs
+    Disassemble Entry Points                   0.044 secs
+    Embedded Media                             0.018 secs
+    External Entry References                  0.000 secs
+    Function ID                                0.044 secs
+    Function Start Pre Search                  0.018 secs
+    Function Start Search                      0.092 secs
+    Function Start Search After Code           0.253 secs
+    Function Start Search After Data           0.009 secs
+    Function Start Search delayed - One Time   0.027 secs
+    Non-Returning Functions - Discovered       0.125 secs
+    Reference                                  0.411 secs
+    Shared Return Calls                        0.079 secs
+    Stack                                      2.127 secs
+    Subroutine References                      0.531 secs
+    Subroutine References - One Time           0.001 secs
+-----------------------------------------------------
+     Total Time   46 secs
+-----------------------------------------------------
+  
+2026-09-07 14:05:38 INFO  (HeadlessAnalyzer) REPORT: Analysis succeeded for file: file:///C:/Users/Timeroot/azoth/M701_fw/M701_FirmwareAutoUpdate_1.0.0.14/FirmwareAutoUpdate_1.0.0.14/Firmware/M701_KEYBOARD_V04_00_13.bin  
+2026-09-07 14:05:38 INFO  (LocalFileSystem) /M701_KEYBOARD_V04_00_13.bin: file created (Timeroot)  
+2026-09-07 14:05:38 INFO  (HeadlessAnalyzer) REPORT: Save succeeded for: /M701_KEYBOARD_V04_00_13.bin (azoth:/M701_KEYBOARD_V04_00_13.bin)  
+2026-09-07 14:05:38 INFO  (HeadlessAnalyzer) REPORT: Import succeeded  

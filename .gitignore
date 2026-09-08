@@ -1,0 +1,15 @@
+# huge / vendor / regenerable
+firmware_re/ghidra_dist/
+firmware_re/ghidra_proj/
+M701_fw/
+*.zip
+*.pcap
+__pycache__/
+*.pyc
+# build artifacts (regenerable from build scripts + stock bin)
+fw_balls.bin
+fw_work_gravez.bin
+cfw/out.elf
+cfw/out.bin
+cfw/link.ld
+err.txt
