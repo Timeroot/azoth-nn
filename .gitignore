@@ -13,3 +13,8 @@ cfw/out.elf
 cfw/out.bin
 cfw/link.ld
 err.txt
+firmware_re/cfw/corpus_raw.txt
+firmware_re/cfw/out.elf
+firmware_re/cfw/lo.bin
+firmware_re/cfw/w.bin
+firmware_re/cfw/app_kb.txt
