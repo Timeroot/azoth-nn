@@ -92,10 +92,13 @@ static const uint8_t FONT[32][8] = {
  * Derived statically from the stock firmware's own tables:
  *   keycode --0x47184--> trail-id --> (col,row): col=(id-32)/9, row=(id-32)%9
  *   (row,col) --invert 0x47510--> (half, slot).   Verified: Esc..F5 = slots 0..5.
- * space (physical row5,col5) and ^/capesc have NO backlight LED -> 255. */
+ * The space KEYCODE (0x2c) maps to grid (row5,col5) which is absent from 0x47510,
+ * but the spacebar's actual LED is buffer slot 57 (grid col6, centered between LAlt
+ * slot56 and RAlt slot77; claimed by internal scancode 0x6b, not HID 0x2c).
+ * ^/capesc has no key at all -> 255. */
 static const uint8_t VOCABPOS[32] = {
    37, 84, 52, 39, 27, 40, 41, 78, 74, 79, 80, 42, 86, 85, 30, 31,
-   25, 28, 38, 29, 73, 53, 26, 51, 72, 50, 255, 44, 81, 47, 20, 255 };
+   25, 28, 38, 29, 73, 53, 26, 51, 72, 50, 57, 44, 81, 47, 20, 255 };
 
 /* Pade(7,7) tanh, clamped; sigmoid built from it (identical to nn_ref.py). */
 static float tanhf_(float x){
