@@ -24,3 +24,5 @@ firmware_re/cfw/*.o
 firmware_re/cfw/*.ld
 firmware_re/cfw/corpus_big.txt
 firmware_re/cfw/nn.elf
+firmware_re/cfw/*.pt
+firmware_re/cfw/*.json
