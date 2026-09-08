@@ -88,6 +88,15 @@ static const uint8_t FONT[32][8] = {
 {0x08,0x1C,0x36,0x63,0x41,0x00,0x00,0x00},          /* 31 caret ^ (cap escape) */
 };
 
+/* vocab symbol -> LED buffer position (half*60 + slot), 255 = key has no LED.
+ * Derived statically from the stock firmware's own tables:
+ *   keycode --0x47184--> trail-id --> (col,row): col=(id-32)/9, row=(id-32)%9
+ *   (row,col) --invert 0x47510--> (half, slot).   Verified: Esc..F5 = slots 0..5.
+ * space (physical row5,col5) and ^/capesc have NO backlight LED -> 255. */
+static const uint8_t VOCABPOS[32] = {
+   37, 84, 52, 39, 27, 40, 41, 78, 74, 79, 80, 42, 86, 85, 30, 31,
+   25, 28, 38, 29, 73, 53, 26, 51, 72, 50, 255, 44, 81, 47, 20, 255 };
+
 /* Pade(7,7) tanh, clamped; sigmoid built from it (identical to nn_ref.py). */
 static float tanhf_(float x){
     if (x > 4.9f) return 1.0f;
@@ -198,19 +207,20 @@ void render(uint8_t *fb, int len){
     draw_char(fb, 150, 20, PREDS[1], 0xA, 4);
     draw_char(fb, 210, 24, PREDS[2], 0x6, 3);
 
-    LEDT[0]=LEDT[0]+1; HUE[0]=PREDS[0];
 }
 
-static void hsv6(uint32_t h,uint8_t*R,uint8_t*G,uint8_t*B){
-    uint32_t h6=h*6u,seg=h6>>8,f=h6&255u,up=f,dn=255u-f;
-    switch(seg){case 0:*R=255;*G=up;*B=0;break;case 1:*R=dn;*G=255;*B=0;break;
-      case 2:*R=0;*G=255;*B=up;break;case 3:*R=0;*G=dn;*B=255;break;
-      case 4:*R=up;*G=0;*B=255;break;default:*R=255;*G=0;*B=dn;break;}
-}
+/* Backlight: every key BLUE, the 3 predicted next-keys RED.
+ * led_fill is called once per half (60 slots each); VOCABPOS encodes half*60+slot.
+ * buf is R,G,B per LED (gamma + physical scatter happen downstream). */
 __attribute__((section(".text.ledfill"),used))
 void led_fill(int subop,int half,uint8_t*buf){
-    if(subop!=0)return; uint32_t t=LEDT[0],base=HUE[0];
-    for(uint32_t i=0;i<60u;i++){uint32_t idx=(uint32_t)half*60u+i;
-        uint32_t hue=(idx*6u+t*2u+base*11u)&0xffu; uint8_t r,g,b; hsv6(hue,&r,&g,&b);
-        buf[i*3+0]=r;buf[i*3+1]=g;buf[i*3+2]=b;}
+    if(subop!=0)return;
+    for(uint32_t i=0;i<60u;i++){ buf[i*3+0]=0; buf[i*3+1]=0; buf[i*3+2]=110; }
+    for(int p=0;p<3;p++){
+        uint8_t sym=PREDS[p]; if(sym>=32u) continue;
+        uint8_t vp=VOCABPOS[sym];
+        if(vp!=255u && (int)(vp/60u)==half){
+            uint32_t i=vp%60u; buf[i*3+0]=255; buf[i*3+1]=0; buf[i*3+2]=0;
+        }
+    }
 }
