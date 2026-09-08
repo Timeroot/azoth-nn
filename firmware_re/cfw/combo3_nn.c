@@ -28,10 +28,18 @@
 #include "combo3_weights.h"       /* dims + OFF_* byte offsets into the weight blob */
 
 #define STRIDE 0x80u
-#define MAG    0xC0FFEE07u                        /* bumped: v2 vocab/layout    */
+#define MAG    0xC0FFEE09u                        /* bumped: adds modes/anim state*/
 #define M      ((volatile uint32_t*)0x2003f000u)  /* 0=magic 1=last_token 2=disp*/
 #define PREDS  ((volatile uint8_t*)0x2003f00cu)   /* 3 predicted symbols        */
+#define SHDISP ((volatile uint32_t*)0x2003f044u)  /* display sym before last step*/
+#define KCOUNT ((volatile uint32_t*)0x2003f050u)  /* total keystrokes           */
+#define HHEAD  ((volatile uint32_t*)0x2003f054u)  /* ticker ring head           */
+#define BALLS  ((volatile int32_t*) 0x2003f060u)  /* 4 balls x {x,y,vx,vy} 16.4fx*/
+#define HIST   ((volatile uint8_t*) 0x2003f0a0u)  /* ticker ring of 16 symbols  */
 #define HID    ((float*)0x2003f100u)              /* h[H] persistent (<=1024 B) */
+#define SHADOW ((float*)0x2003f300u)              /* h[H] before last step (undo)*/
+#define NBALL  4
+#define HMASK  15u
 #define GI     ((float*)0x2003b000u)              /* scratch gate acc (in) 3H   */
 #define GH     ((float*)0x2003bc00u)              /* scratch gate acc (hid) 3H  */
 #define DIRTY  (*(volatile uint8_t*)0x200034bau)
@@ -147,19 +155,22 @@ static void predict(int lastsym){
     PREDS[0]=i0; PREDS[1]=i1; PREDS[2]=i2;
 }
 
-/* map main keycode + shift -> up to 2 symbols; returns count, fills s[] */
+/* map main keycode + shift -> up to 2 vocab symbols; returns count (0 = IGNORE
+ * this key entirely: leaves state & display untouched). Backspace (0x2a) is
+ * handled by the caller, not here. Keys not in the 32-symbol vocab (arrows,
+ * caps lock, pgup/pgdn, backslash, digits, F-keys, ... ) return 0. */
 static int map_key(int kc, int shift, int *s){
-    if (kc>=0x04 && kc<=0x1d){ int base=kc-0x04;
+    if (kc>=0x04 && kc<=0x1d){ int base=kc-0x04;         /* a..z            */
         if (shift){ s[0]=SYM_CT; s[1]=base; return 2; } s[0]=base; return 1; }
     switch (kc){
-        case 0x2c: case 0x28: s[0]=SYM_SP; return 1;          /* space / enter */
-        case 0x34: s[0]= shift?SYM_SP:SYM_AP; return 1;       /* '  "          */
-        case 0x37: s[0]= shift?SYM_SP:SYM_DT; return 1;       /* .  >          */
-        case 0x36: s[0]= shift?SYM_SP:SYM_CM; return 1;       /* ,  <          */
-        case 0x2d: s[0]= shift?SYM_SP:SYM_DS; return 1;       /* -  _          */
-        case 0x1e: s[0]= shift?SYM_DT:SYM_SP; return 1;       /* 1  !          */
-        case 0x38: s[0]= shift?SYM_DT:SYM_SP; return 1;       /* /  ?          */
-        default:   s[0]=SYM_SP; return 1;
+        case 0x2c: case 0x28: s[0]=SYM_SP; return 1;     /* space / enter -> space */
+        case 0x34: if(shift) return 0; s[0]=SYM_AP; return 1;  /* '  ("->ignore) */
+        case 0x37: if(shift) return 0; s[0]=SYM_DT; return 1;  /* .  (>->ignore) */
+        case 0x36: if(shift) return 0; s[0]=SYM_CM; return 1;  /* ,  (<->ignore) */
+        case 0x2d: if(shift) return 0; s[0]=SYM_DS; return 1;  /* -  (_->ignore) */
+        case 0x1e: if(shift){ s[0]=SYM_DT; return 1; } return 0; /* !->. ; 1 ignore */
+        case 0x38: if(shift){ s[0]=SYM_DT; return 1; } return 0; /* ?->. ; / ignore */
+        default:   return 0;                             /* everything else: ignore */
     }
 }
 
@@ -167,10 +178,71 @@ static void setpx(uint8_t *fb,uint32_t x,uint32_t y,uint8_t nib){
     uint8_t *p=fb+y*STRIDE+(x>>1);
     if(x&1)*p=(*p&0x0F)|(nib<<4); else *p=(*p&0xF0)|nib;
 }
-static void draw_char(uint8_t *fb,uint32_t px,uint32_t py,uint32_t g,uint8_t nib,uint32_t s){
-    for(uint32_t row=0;row<8;row++){ uint8_t bits=FONT[g][row];
-        for(uint32_t c=0;c<8;c++) if((bits>>c)&1){ uint32_t x0=px+c*s,y0=py+row*s;
+static void draw_glyph(uint8_t *fb,uint32_t px,uint32_t py,const uint8_t*bits,uint8_t nib,uint32_t s){
+    for(uint32_t row=0;row<8;row++){ uint8_t b8=bits[row];
+        for(uint32_t c=0;c<8;c++) if((b8>>c)&1){ uint32_t x0=px+c*s,y0=py+row*s;
             for(uint32_t a=0;a<s;a++) for(uint32_t b=0;b<s;b++) setpx(fb,x0+a,y0+b,nib); } }
+}
+static void draw_char(uint8_t *fb,uint32_t px,uint32_t py,uint32_t g,uint8_t nib,uint32_t s){
+    draw_glyph(fb,px,py,FONT[g],nib,s);
+}
+/* DIAG hex readout (digits 0-9 here, A-F reuse letter glyphs FONT[0..5]) */
+static const uint8_t DIGIT[10][8]={
+{0x3E,0x63,0x73,0x7B,0x6F,0x67,0x3E,0x00},{0x0C,0x0E,0x0C,0x0C,0x0C,0x0C,0x3F,0x00},
+{0x1E,0x33,0x30,0x1C,0x06,0x33,0x3F,0x00},{0x1E,0x33,0x30,0x1C,0x30,0x33,0x1E,0x00},
+{0x38,0x3C,0x36,0x33,0x7F,0x30,0x78,0x00},{0x3F,0x03,0x1F,0x30,0x30,0x33,0x1E,0x00},
+{0x1C,0x06,0x03,0x1F,0x33,0x33,0x1E,0x00},{0x3F,0x33,0x30,0x18,0x0C,0x0C,0x0C,0x00},
+{0x1E,0x33,0x33,0x1E,0x33,0x33,0x1E,0x00},{0x1E,0x33,0x33,0x3E,0x30,0x18,0x0E,0x00}};
+static void draw_hex(uint8_t*fb,uint32_t px,uint32_t py,uint32_t val,int nd,uint8_t nib,uint32_t s){
+    for(int k=0;k<nd;k++){ uint32_t v=(val>>((nd-1-k)*4))&0xFu;
+        const uint8_t*g=(v<10)?DIGIT[v]:FONT[v-10];
+        draw_glyph(fb,px+(uint32_t)k*6u*s,py,g,nib,s); }
+}
+
+/* Stock RGB mode index (Fn+Left/Right, 0..9) and per-mode brightness (Fn+Up/Down,
+ * 0..100 via a pointer table). Both are just read from firmware RAM. */
+static uint32_t cur_mode(void){ uint32_t m=*(volatile uint8_t*)0x200031bdu; return m>9u?9u:m; }
+static uint32_t cur_bri(uint32_t m){
+    uint32_t p=*(volatile uint32_t*)(0x200031d8u+m*4u);   /* per-mode config ptr   */
+    if(p>=0x20000000u && p<0x20040000u){                  /* guard: valid RAM only */
+        uint32_t b=*(volatile uint8_t*)(p+1u); if(b<=100u) return b; }
+    return 100u;
+}
+static uint8_t scl(uint32_t c,uint32_t bri){ return (uint8_t)((c*bri)/100u); }
+static void fillrect(uint8_t*fb,int x,int y,int w,int h,uint8_t nib){
+    for(int j=0;j<h;j++){ int yy=y+j; if(yy<0||yy>=64)continue;
+        for(int i=0;i<w;i++){ int xx=x+i; if(xx<0||xx>=256)continue; setpx(fb,(uint32_t)xx,(uint32_t)yy,nib);} }
+}
+
+/* OLED mode 0: last char + top-3 predictions */
+static void draw_predict(uint8_t*fb){
+    draw_char(fb, 4, 20, M[2], 0xC, 2);
+    setpx(fb,26,26,0x6); setpx(fb,27,26,0x6); setpx(fb,28,26,0x6);
+    draw_char(fb, 60,  16, PREDS[0], 0xF, 5);
+    draw_char(fb, 150, 20, PREDS[1], 0xA, 4);
+    draw_char(fb, 210, 24, PREDS[2], 0x6, 3);
+}
+/* OLED mode 1: bouncing balls (fixed-point 16.4; positions in RAM) */
+static void draw_balls(uint8_t*fb){
+    static const uint8_t col[NBALL]={0xF,0xC,0x9,0x6};
+    for(int b=0;b<NBALL;b++){
+        int32_t x=BALLS[b*4+0]+BALLS[b*4+2], y=BALLS[b*4+1]+BALLS[b*4+3];
+        int32_t vx=BALLS[b*4+2], vy=BALLS[b*4+3];
+        if(x<(6<<4)){x=(6<<4);vx=-vx;} if(x>(250<<4)){x=(250<<4);vx=-vx;}
+        if(y<(6<<4)){y=(6<<4);vy=-vy;} if(y>(58<<4)){y=(58<<4);vy=-vy;}
+        BALLS[b*4+0]=x;BALLS[b*4+1]=y;BALLS[b*4+2]=vx;BALLS[b*4+3]=vy;
+        fillrect(fb,(x>>4)-3,(y>>4)-3,7,7,col[b]);
+    }
+}
+/* OLED mode 2: ticker of recently typed symbols (newest on the right) */
+static void draw_ticker(uint8_t*fb){
+    for(int k=0;k<12;k++){
+        uint32_t h=HHEAD[0]; if(h<=(uint32_t)k) break;
+        uint8_t sym=HIST[(h-1u-(uint32_t)k)&HMASK];
+        int x=232-k*20; if(x<0) break;
+        uint8_t nib = k==0?0xF : (k<4?0xA : 0x5);
+        draw_char(fb,(uint32_t)x,20,sym,nib,3);
+    }
 }
 
 __attribute__((section(".text.render"), used))
@@ -180,8 +252,14 @@ void render(uint8_t *fb, int len){
        so a stale magic must not skip seeding). */
     float h0=HID[0]; int healthy=(h0==h0) && h0>-100.0f && h0<100.0f;
     if (M[0] != MAG || !healthy){
-        M[0]=MAG; M[1]=0xFFFFFFFFu; M[2]=SYM_SP;
-        for(int i=0;i<H;i++) HID[i]=0.0f;
+        M[0]=MAG; M[1]=0xFFFFFFFFu; M[2]=SYM_SP; SHDISP[0]=SYM_SP;
+        for(int i=0;i<H;i++){ HID[i]=0.0f; SHADOW[i]=0.0f; }
+        KCOUNT[0]=0; HHEAD[0]=0;
+        for(int i=0;i<16;i++) HIST[i]=SYM_SP;
+        for(int b=0;b<NBALL;b++){
+            BALLS[b*4+0]=(30+b*55)<<4; BALLS[b*4+1]=(12+b*11)<<4;
+            BALLS[b*4+2]=((b&1)?11:-9); BALLS[b*4+3]=((b&2)?7:-6);
+        }
         gru_step(SYM_SP); predict(SYM_SP);       /* seed with a space */
     }
     DIRTY=1;
@@ -194,36 +272,75 @@ void render(uint8_t *fb, int len){
 
     if (kc>=0){
         uint32_t tok=((uint32_t)shift<<16)|(uint32_t)kc;
-        if (tok!=M[1]){
+        if (tok!=M[1]){                          /* edge: act once per keypress */
             M[1]=tok;
-            int s[2]; int c=map_key(kc,shift,s);
-            for(int j=0;j<c;j++) gru_step(s[j]);
-            M[2]=(uint32_t)s[c-1];               /* display last emitted symbol */
-            predict(s[c-1]);
+            if (kc==0x2a){                        /* Backspace: revert one step  */
+                for(int i=0;i<H;i++) HID[i]=SHADOW[i];
+                M[2]=SHDISP[0];
+                predict((int)M[2]);
+                if (HHEAD[0]>0) HHEAD[0]--;        /* ticker: drop last symbol    */
+            } else {
+                int s[2]; int c=map_key(kc,shift,s);
+                if (c>0){                         /* a real vocab key            */
+                    for(int i=0;i<H;i++) SHADOW[i]=HID[i];   /* snapshot for undo */
+                    SHDISP[0]=M[2];
+                    for(int j=0;j<c;j++) gru_step(s[j]);
+                    M[2]=(uint32_t)s[c-1];        /* display last emitted symbol */
+                    predict(s[c-1]);
+                    KCOUNT[0]++;
+                    HIST[HHEAD[0]&HMASK]=(uint8_t)M[2]; HHEAD[0]++;
+                }
+                /* c==0 : ignored key (arrows/caps/pgup/... ) -> no change       */
+            }
         }
     } else M[1]=0xFFFFFFFFu;
 
-    uint32_t *pp=(uint32_t*)fb; for(int i=0;i<0x2000/4;i++) pp[i]=0;
-    draw_char(fb, 4, 20, M[2], 0xC, 2);                 /* last typed char (context) */
-    setpx(fb,26,26,0x6); setpx(fb,27,26,0x6); setpx(fb,28,26,0x6);
-    draw_char(fb, 60,  16, PREDS[0], 0xF, 5);           /* #1 prediction, biggest */
-    draw_char(fb, 150, 20, PREDS[1], 0xA, 4);
-    draw_char(fb, 210, 24, PREDS[2], 0x6, 3);
+    LEDT[0]=LEDT[0]+1;                                  /* frame clock (rainbow/anim) */
 
+    uint32_t m=cur_mode();                              /* stock mode 0..9         */
+    uint32_t ol=(m/3u)%3u;                              /* 0 pred 1 balls 2 ticker */
+    uint32_t *pp=(uint32_t*)fb; for(int i=0;i<0x2000/4;i++) pp[i]=0;
+    switch(ol){
+        case 1:  draw_balls(fb);   break;
+        case 2:  draw_ticker(fb);  break;
+        default: draw_predict(fb); break;
+    }
+    draw_hex(fb, 240, 0, m, 1, 0x5, 2);                 /* current preset (top-right) */
 }
 
-/* Backlight: every key BLUE, the 3 predicted next-keys RED.
- * led_fill is called once per half (60 slots each); VOCABPOS encodes half*60+slot.
- * buf is R,G,B per LED (gamma + physical scatter happen downstream). */
+static void hsv6(uint32_t h,uint8_t*R,uint8_t*G,uint8_t*B){
+    uint32_t h6=h*6u,seg=h6>>8,f=h6&255u,up=f,dn=255u-f;
+    switch(seg){case 0:*R=255;*G=up;*B=0;break;case 1:*R=dn;*G=255;*B=0;break;
+      case 2:*R=0;*G=255;*B=up;break;case 3:*R=0;*G=dn;*B=255;break;
+      case 4:*R=up;*G=0;*B=255;break;default:*R=255;*G=0;*B=dn;break;}
+}
+/* Backlight = (stock mode index) % 3, cycled by Fn+Left/Right:
+ *   0 VANILLA : leave the stock-composed colors untouched (return).
+ *   1 RAINBOW : flowing hue animation, tinted by the top prediction.
+ *   2 PREDICT : every key blue, the 3 predicted next-keys red.
+ * Brightness (Fn+Up/Down) is applied to modes 1/2 here (vanilla is already scaled
+ * by the stock composer). led_fill runs once per half (60 slots); VOCABPOS encodes
+ * half*60+slot. buf is R,G,B per LED (gamma + physical scatter happen downstream). */
 __attribute__((section(".text.ledfill"),used))
 void led_fill(int subop,int half,uint8_t*buf){
     if(subop!=0)return;
-    for(uint32_t i=0;i<60u;i++){ buf[i*3+0]=0; buf[i*3+1]=0; buf[i*3+2]=110; }
+    uint32_t m=cur_mode(), bl=m%3u;
+    if(bl==0) return;                                /* vanilla: passthrough      */
+    uint32_t bri=cur_bri(m);
+    if(bl==1){                                       /* rainbow                   */
+        uint32_t t=LEDT[0], base=PREDS[0];
+        for(uint32_t i=0;i<60u;i++){ uint32_t idx=(uint32_t)half*60u+i;
+            uint32_t hue=(idx*6u+t*2u+base*11u)&0xffu; uint8_t r,g,b; hsv6(hue,&r,&g,&b);
+            buf[i*3+0]=scl(r,bri); buf[i*3+1]=scl(g,bri); buf[i*3+2]=scl(b,bri); }
+        return;
+    }
+    uint8_t bl_b=scl(110,bri), rd=scl(255,bri);      /* predict: blue + red preds */
+    for(uint32_t i=0;i<60u;i++){ buf[i*3+0]=0; buf[i*3+1]=0; buf[i*3+2]=bl_b; }
     for(int p=0;p<3;p++){
         uint8_t sym=PREDS[p]; if(sym>=32u) continue;
         uint8_t vp=VOCABPOS[sym];
         if(vp!=255u && (int)(vp/60u)==half){
-            uint32_t i=vp%60u; buf[i*3+0]=255; buf[i*3+1]=0; buf[i*3+2]=0;
+            uint32_t i=vp%60u; buf[i*3+0]=rd; buf[i*3+1]=0; buf[i*3+2]=0;
         }
     }
 }

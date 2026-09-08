@@ -13,8 +13,12 @@ HERE=os.path.dirname(os.path.abspath(__file__))
 
 FLUSH_HOOK=0x31658; FLUSH_RES=0x31660
 LED_HOOK=0x31b28;   LED_RES=0x31b2c
-FSHIM=0x4d500; LSHIM=0x4d538; RENDER_AT=0x4d560
+FSHIM=0x4d500; LSHIM=0x4d540
 DATA_AT=0x50000; CKSUM=0x4dffc; APP_LO=0x1c000; CPACR=0xE000ED88
+# Code lives ABOVE the weights (weights end ~0x5f500; flash ceiling 0x61000), so it
+# is not cramped by the ~2.6KB gap below the checksum word. Not checksummed (like
+# the weights), just flashed below the ceiling.
+RENDER_AT=0x5f600
 
 elf=os.path.join(HERE,"combo3.elf"); ld=os.path.join(HERE,"combo3_link.ld")
 open(ld,"w").write(f"ENTRY(render)\nSECTIONS {{ . = 0x{RENDER_AT:x}; .text : {{ *(.text.render) *(.text.ledfill) *(.text*) *(.rodata*) }} /DISCARD/ : {{ *(.ARM.exidx*) *(.comment) *(.ARM.attributes) }} }}\n")
@@ -25,7 +29,8 @@ nm=subprocess.run([NM,elf],capture_output=True,text=True)
 if [l for l in nm.stdout.splitlines() if " U " in l]:
     print("UNDEF:"); print(nm.stdout); raise SystemExit(1)
 syms={l.split()[2]:int(l.split()[0],16) for l in nm.stdout.splitlines() if len(l.split())==3}
-led_addr=syms["led_fill"]; print(f"render@0x{RENDER_AT:x} led_fill@0x{led_addr:x}")
+led_addr=syms["led_fill"]
+print(f"render@0x{RENDER_AT:x} led_fill@0x{led_addr:x}")
 subprocess.run([OBJCOPY,"-O","binary","-j",".text",elf,os.path.join(HERE,"combo3_lo.bin")],check=True)
 code=open(os.path.join(HERE,"combo3_lo.bin"),"rb").read()
 weights=open(os.path.join(HERE,"combo3_weights.bin"),"rb").read()
@@ -57,10 +62,12 @@ lshim,_=ks.asm(f"""
  pop {{r0,r1,r2,r3,r12,lr}}
  push.w {{r2,r3,r4,r5,r6,r7,r8,r9,r10,lr}}
  b.w #{LED_RES}
-""",LSHIM); lshim=bytes(lshim); assert LSHIM+len(lshim)<=RENDER_AT,len(lshim)
+""",LSHIM); lshim=bytes(lshim); assert LSHIM+len(lshim)<=DATA_AT,len(lshim)
 
 d=bytearray(open(STOCK,"rb").read())
-assert set(d[FSHIM:RENDER_AT+len(code)])<= {0},"region not free"
+assert set(d[FSHIM:LSHIM+len(lshim)])<= {0},"shim region not free"
+assert RENDER_AT>=DATA_AT+len(weights),"code overlaps weights"
+assert RENDER_AT+len(code)<=0x61000,"code past flash ceiling"
 d[FSHIM:FSHIM+len(fshim)]=fshim
 d[LSHIM:LSHIM+len(lshim)]=lshim
 d[RENDER_AT:RENDER_AT+len(code)]=code
@@ -72,6 +79,6 @@ d[LED_HOOK:LED_HOOK+4]=lt
 def sum32(x): return sum(struct.unpack("<%dI"%(len(x)//4),x))&0xffffffff
 ck=sum32(d[APP_LO:CKSUM]); d[CKSUM:CKSUM+4]=struct.pack("<I",ck)
 open(OUT,"wb").write(d)
-app_kb=math.ceil((DATA_AT+len(weights)-APP_LO)/1024)
+app_kb=math.ceil((max(DATA_AT+len(weights),RENDER_AT+len(code))-APP_LO)/1024)
 print(f"checksum=0x{ck:08x} wrote {OUT}  APP_SIZE={app_kb}KB")
 open(os.path.join(HERE,"combo3_app_kb.txt"),"w").write(str(app_kb))
