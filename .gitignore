@@ -18,3 +18,9 @@ firmware_re/cfw/out.elf
 firmware_re/cfw/lo.bin
 firmware_re/cfw/w.bin
 firmware_re/cfw/app_kb.txt
+firmware_re/cfw/*.bin
+firmware_re/cfw/*.elf
+firmware_re/cfw/*.o
+firmware_re/cfw/*.ld
+firmware_re/cfw/corpus_big.txt
+firmware_re/cfw/nn.elf

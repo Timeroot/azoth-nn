@@ -1,0 +1,19 @@
+/* auto-generated. nn_weights.bin layout at flash base 0x50000. */
+#define ARCH_LSTM 0
+#define NLAYERS 1
+#define VOCAB 27
+#define EDIM 64
+#define GATES 3
+#define H0 256
+#define HLAST 256
+#define WEIGHTS_BYTES 272088
+#define OFF_WIH0 0u
+#define OFF_WHH0 49152u
+#define OFF_OUT 245760u
+#define OFF_EMB 252672u
+#define OFF_WIH0_SCALE 259584u
+#define OFF_WHH0_SCALE 262656u
+#define OFF_OUT_SCALE 265728u
+#define OFF_BIH0 265836u
+#define OFF_BHH0 268908u
+#define OFF_BOUT 271980u
