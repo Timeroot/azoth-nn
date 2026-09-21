@@ -1,0 +1,154 @@
+{
+ "model": "fmlp_res",
+ "HF": 152,
+ "HS": 64,
+ "E": 48,
+ "V": 72,
+ "k": 7,
+ "D": 8,
+ "Hf": 112,
+ "combine": "concat",
+ "OUTIN": 264,
+ "bytes": 197440,
+ "int8": 169440,
+ "pke_fp16": 8064,
+ "f32": 19936,
+ "kb": 192.8,
+ "metrics": {
+  "float_ppl": 3.6443,
+  "int8_ppl": 3.6489,
+  "t1": 0.6155,
+  "t3": 0.8067
+ },
+ "offsets": {
+  "Wif0": 0,
+  "Whf0": 21888,
+  "Wis": 91200,
+  "Whs": 120384,
+  "OUT": 132672,
+  "GMAP0": 151680,
+  "GMAP2": 157952,
+  "PKE": 163328,
+  "EMB": 171392,
+  "Wif0_scale": 185216,
+  "Whf0_scale": 187040,
+  "Wis_scale": 188864,
+  "Whs_scale": 189632,
+  "OUT_scale": 190400,
+  "GMAP0_scale": 190688,
+  "GMAP2_scale": 191136,
+  "Bif0": 191328,
+  "Bhf0": 193152,
+  "Bis": 194976,
+  "Bhs": 195744,
+  "Bout": 196512,
+  "BG0": 196800,
+  "BG2": 197248
+ },
+ "shapes": {
+  "Wif0": [
+   456,
+   48
+  ],
+  "Whf0": [
+   456,
+   152
+  ],
+  "Wis": [
+   192,
+   152
+  ],
+  "Whs": [
+   192,
+   64
+  ],
+  "OUT": [
+   72,
+   264
+  ],
+  "GMAP0": [
+   112,
+   56
+  ],
+  "GMAP2": [
+   48,
+   112
+  ],
+  "PKE": [
+   7,
+   72,
+   8
+  ],
+  "EMB": [
+   72,
+   48
+  ],
+  "Wif0_scale": [
+   456
+  ],
+  "Whf0_scale": [
+   456
+  ],
+  "Wis_scale": [
+   192
+  ],
+  "Whs_scale": [
+   192
+  ],
+  "OUT_scale": [
+   72
+  ],
+  "GMAP0_scale": [
+   112
+  ],
+  "GMAP2_scale": [
+   48
+  ],
+  "Bif0": [
+   456
+  ],
+  "Bhf0": [
+   456
+  ],
+  "Bis": [
+   192
+  ],
+  "Bhs": [
+   192
+  ],
+  "Bout": [
+   72
+  ],
+  "BG0": [
+   112
+  ],
+  "BG2": [
+   48
+  ]
+ },
+ "dtypes": {
+  "Wif0": "int8",
+  "Whf0": "int8",
+  "Wis": "int8",
+  "Whs": "int8",
+  "OUT": "int8",
+  "GMAP0": "int8",
+  "GMAP2": "int8",
+  "PKE": "float16",
+  "EMB": "float32",
+  "Wif0_scale": "float32",
+  "Whf0_scale": "float32",
+  "Wis_scale": "float32",
+  "Whs_scale": "float32",
+  "OUT_scale": "float32",
+  "GMAP0_scale": "float32",
+  "GMAP2_scale": "float32",
+  "Bif0": "float32",
+  "Bhf0": "float32",
+  "Bis": "float32",
+  "Bhs": "float32",
+  "Bout": "float32",
+  "BG0": "float32",
+  "BG2": "float32"
+ }
+}

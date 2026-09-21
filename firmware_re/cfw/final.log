@@ -1,0 +1,44 @@
+device: cuda V: 72 cfg HF 84 HS 32 E 28 skip True
+train 19,625,263  val 432,739 symbols
+blob bytes 63936 (int8 49728 + f32 14208)  state 116f macC 38592 macW 11136
+loaded teacher (T=1.5 a=0.70)
+
+Train student steps=16000 aux=False distill=True
+  step     0 loss 5.361 (0s)
+  step   500 loss 1.311 (32s)
+  step  1000 loss 1.087 (64s)
+  step  1500 loss 0.996 (95s)
+  step  2000 loss 0.983 (128s)
+  step  2500 loss 0.914 (163s)
+  step  3000 loss 0.915 (195s)
+  step  3500 loss 0.895 (227s)
+  step  4000 loss 0.885 (260s)
+  step  4500 loss 0.901 (292s)
+  step  5000 loss 0.893 (325s)
+  step  5500 loss 0.857 (356s)
+  step  6000 loss 0.875 (383s)
+  step  6500 loss 0.852 (407s)
+  step  7000 loss 0.850 (430s)
+  step  7500 loss 0.858 (454s)
+  step  8000 loss 0.833 (477s)
+  step  8500 loss 0.836 (501s)
+  step  9000 loss 0.842 (525s)
+  step  9500 loss 0.858 (549s)
+  step 10000 loss 0.854 (581s)
+  step 10500 loss 0.841 (614s)
+  step 11000 loss 0.848 (647s)
+  step 11500 loss 0.855 (680s)
+  step 12000 loss 0.840 (712s)
+  step 12500 loss 0.845 (744s)
+  step 13000 loss 0.884 (777s)
+  step 13500 loss 0.830 (808s)
+  step 14000 loss 0.883 (839s)
+  step 14500 loss 0.841 (870s)
+  step 15000 loss 0.870 (898s)
+  step 15500 loss 0.874 (926s)
+
+---- held-out metrics ----
+float : ppl 4.8020 top1 0.5433 top3 0.7534
+int8  : ppl 4.9889 top1 0.5363 top3 0.7448
+
+exported nn_weights.bin = 63936 B on flash (ends 0x5F9C0 < 0x60000)

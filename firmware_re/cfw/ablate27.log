@@ -1,0 +1,43 @@
+MODE=27 V=27 testbed HF=72 HS=24 E=24 L=64 wideH=86
+train 17,835,119 val 356,133
+training teacher...
+  [teacher] 0 loss 3.300 (0s)
+  [teacher] 1000 loss 1.363 (13s)
+  [teacher] 2000 loss 1.286 (27s)
+  [teacher] 3000 loss 1.283 (41s)
+  [teacher] ppl 3.414 t1 0.620 t3 0.810
+C:\Users\Timeroot\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.13_qbz5n2kfra8p0\LocalCache\local-packages\Python313\site-packages\torch\nn\modules\rnn.py:1415: UserWarning: RNN module weights are not part of single contiguous chunk of memory. This means they need to be compacted at every call, possibly greatly increasing memory usage. To compact weights again call flatten_parameters(). (Triggered internally at C:\actions-runner\_work\pytorch\pytorch\pytorch\aten\src\ATen\native\cudnn\RNN.cpp:1480.)
+  result = _VF.gru(
+  single_base          seed  1337 | float ppl 4.630 t1 0.542 t3 0.753 | int8 ppl 4.632 t1 0.542 | P24k st72 macC23k @9500 (109s)
+  single_base          seed     7 | float ppl 4.701 t1 0.542 t3 0.750 | int8 ppl 4.705 t1 0.542 | P24k st72 macC23k @9999 (160s)
+  single_wide          seed  1337 | float ppl 4.498 t1 0.552 t3 0.758 | int8 ppl 4.498 t1 0.552 | P32k st86 macC31k @9500 (210s)
+  single_wide          seed     7 | float ppl 4.467 t1 0.552 t3 0.761 | int8 ppl 4.472 t1 0.552 | P32k st86 macC31k @9999 (262s)
+  tt_gru               seed  1337 | float ppl 4.563 t1 0.545 t3 0.755 | int8 ppl 4.564 t1 0.545 | P32k st96 macC23k @9500 (743s)
+  tt_gru               seed     7 | float ppl 4.547 t1 0.545 t3 0.757 | int8 ppl 4.549 t1 0.545 | P32k st96 macC23k @9999 (1236s)
+  tt_lstm              seed  1337 | float ppl 4.577 t1 0.545 t3 0.755 | int8 ppl 4.578 t1 0.545 | P34k st120 macC23k @9500 (1844s)
+  tt_rnn               seed  1337 | float ppl 4.568 t1 0.545 t3 0.754 | int8 ppl 4.568 t1 0.545 | P27k st96 macC23k @9999 (2170s)
+  tt_gru_aux_char2     seed  1337 | float ppl 4.573 t1 0.546 t3 0.756 | int8 ppl 4.577 t1 0.545 | P34k st96 macC23k @9500 (2822s)
+  tt_gru_aux_char3     seed  1337 | float ppl 4.599 t1 0.543 t3 0.754 | int8 ppl 4.600 t1 0.543 | P34k st96 macC23k @9500 (14251s)
+  tt_gru_aux_word      seed  1337 | float ppl 4.597 t1 0.546 t3 0.753 | int8 ppl 4.599 t1 0.546 | P32k st96 macC23k @9500 (14928s)
+  tt_gru_aux_all       seed  1337 | float ppl 4.582 t1 0.545 t3 0.755 | int8 ppl 4.583 t1 0.545 | P38k st96 macC23k @9500 (15608s)
+  tt_gru_bnd_space     seed  1337 | float ppl 4.563 t1 0.545 t3 0.755 | int8 ppl 4.564 t1 0.545 | P32k st96 macC23k @9500 (16279s)
+  tt_gru_distill       seed  1337 | float ppl 4.588 t1 0.541 t3 0.752 | int8 ppl 4.592 t1 0.541 | P32k st96 macC23k @9500 (17000s)
+  wide_distill         seed  1337 | float ppl 4.485 t1 0.549 t3 0.757 | int8 ppl 4.488 t1 0.549 | P32k st86 macC31k @9999 (17123s)
+
+==== ABLATION TABLE (mode 27) ====
+arm                     params   st   macC    fppl    ft1    ft3    qppl    qt1 seeds
+single_base                24k   72    23k   4.665  0.542  0.752   4.669  0.542     2  (+-0.035)
+single_wide                32k   86    31k   4.482  0.552  0.760   4.485  0.552     2  (+-0.015)
+tt_gru                     32k   96    23k   4.555  0.545  0.756   4.557  0.545     2  (+-0.008)
+tt_lstm                    34k  120    23k   4.577  0.545  0.755   4.578  0.545     1
+tt_rnn                     27k   96    23k   4.568  0.545  0.754   4.568  0.545     1
+tt_gru_aux_char2           34k   96    23k   4.573  0.546  0.756   4.577  0.545     1
+tt_gru_aux_char3           34k   96    23k   4.599  0.543  0.754   4.600  0.543     1
+tt_gru_aux_word            32k   96    23k   4.597  0.546  0.753   4.599  0.546     1
+tt_gru_aux_all             38k   96    23k   4.582  0.545  0.755   4.583  0.545     1
+tt_gru_bnd_space           32k   96    23k   4.563  0.545  0.755   4.564  0.545     1
+tt_gru_distill             32k   96    23k   4.588  0.541  0.752   4.592  0.541     1
+wide_distill               32k   86    31k   4.485  0.549  0.757   4.488  0.549     1
+
+teacher: ppl 3.414 t1 0.620 t3 0.810
+total 17123s

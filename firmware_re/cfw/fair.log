@@ -1,0 +1,15 @@
+device: cuda V: 72 cfg HF 84 HS 32 E 28 skip True
+train 19,625,263  val 432,739 symbols
+blob bytes 63936 (int8 49728 + f32 14208)  state 116f macC 38592 macW 11136
+
+=== FAIR COMPARE (max 40000 steps, distill=True) ===
+  [aux] step      0 lr 2.00e-03 auxw 0.300 | val ppl 72.379 t1 0.020 t3 0.046 | best 72.379@0 (1s)
+  [aux] step   1000 lr 1.98e-03 auxw 0.300 | val ppl 6.128 t1 0.481 t3 0.706 | best 6.128@1000 (68s)
+  [aux] step   2000 lr 1.94e-03 auxw 0.300 | val ppl 5.534 t1 0.506 t3 0.724 | best 5.534@2000 (119s)
+  [aux] step   3000 lr 1.87e-03 auxw 0.300 | val ppl 5.318 t1 0.516 t3 0.732 | best 5.318@3000 (171s)
+  [aux] step   4000 lr 1.77e-03 auxw 0.300 | val ppl 5.204 t1 0.521 t3 0.736 | best 5.204@4000 (224s)
+  [aux] step   5000 lr 1.65e-03 auxw 0.300 | val ppl 5.133 t1 0.525 t3 0.740 | best 5.133@5000 (277s)
+  [aux] step   6000 lr 1.51e-03 auxw 0.300 | val ppl 5.072 t1 0.527 t3 0.743 | best 5.072@6000 (332s)
+  [aux] step   7000 lr 1.35e-03 auxw 0.300 | val ppl 5.019 t1 0.531 t3 0.744 | best 5.019@7000 (385s)
+  [aux] step   8000 lr 1.18e-03 auxw 0.300 | val ppl 5.004 t1 0.531 t3 0.745 | best 5.004@8000 (437s)
+  [aux] step   9000 lr 1.01e-03 auxw 0.300 | val ppl 4.980 t1 0.533 t3 0.745 | best 4.980@9000 (490s)

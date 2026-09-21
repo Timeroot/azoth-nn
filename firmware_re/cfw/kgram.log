@@ -1,0 +1,32 @@
+  sum_k8_D64_H256_L2 step 0 loss 4.282 (8s)
+  sum_k8_D64_H256_L2 step 5000 loss 1.840 (19s)
+  sum_k8_D64_H256_L2 step 10000 loss 1.609 (31s)
+  sum_k8_D64_H256_L2: 244.3KB macC 100352 ppl 5.450 t1 0.517 t3 0.734 [appended]
+  concat_k4_D64_H256_L2 step 0 loss 4.272 (44s)
+  concat_k4_D64_H256_L2 step 5000 loss 1.783 (53s)
+  concat_k4_D64_H256_L2 step 10000 loss 1.564 (63s)
+  concat_k4_D64_H256_L2: 220.3KB macC 149504 ppl 5.420 t1 0.518 t3 0.735 [appended]
+  concat_k8_D48_H256_L2 step 0 loss 4.273 (72s)
+  concat_k8_D48_H256_L2 step 5000 loss 1.658 (85s)
+  concat_k8_D48_H256_L2 step 10000 loss 1.546 (98s)
+  concat_k8_D48_H256_L2: 288.3KB macC 182272 ppl 5.123 t1 0.535 t3 0.744 [appended]
+  concat_k8_D64_H512_L3 step 0 loss 4.270 (111s)
+  concat_k8_D64_H512_L3 step 5000 loss 1.552 (124s)
+  concat_k8_D64_H512_L3 step 10000 loss 1.534 (136s)
+  concat_k8_D64_H512_L3: 954.3KB macC 823296 ppl 4.394 t1 0.570 t3 0.772 [appended]
+  concat_k16_D32_H384_L2 step 0 loss 4.265 (149s)
+  concat_k16_D32_H384_L2 step 5000 loss 1.597 (167s)
+  concat_k16_D32_H384_L2 step 10000 loss 1.549 (184s)
+  concat_k16_D32_H384_L2: 510.3KB macC 371712 ppl 4.806 t1 0.550 t3 0.756 [appended]
+  sum_k16_D128_H512_L2 step 0 loss 4.273 (202s)
+  sum_k16_D128_H512_L2 step 5000 loss 1.498 (219s)
+  sum_k16_D128_H512_L2 step 10000 loss 1.397 (236s)
+  sum_k16_D128_H512_L2: 936.3KB macC 364544 ppl 4.627 t1 0.556 t3 0.762 [appended]
+  interp lam=0.6: ppl 3.508
+  interp lam=0.7: ppl 3.454
+  interp lam=0.8: ppl 3.413
+  interp lam=0.9: ppl 3.385
+  interp lam=0.95: ppl 3.378
+  interp lam=1.0: ppl 3.380
+  GRU(nn_460k) alone 3.380; +bestKgram interp -> 3.378 (lam=0.95); best standalone kgram=concat_k8_D64_H512_L3 4.394
+kgram done (256s)

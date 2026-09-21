@@ -1,0 +1,39 @@
+=== Tue Sep  8 15:02:27 EDT 2026 START teacher ===
+device: cuda V: 72 cfg HF 84 HS 32 E 28 skip True
+train 19,625,263  val 432,739 symbols
+blob bytes 63936 (int8 49728 + f32 14208)  state 116f macC 38592 macW 11136
+  [teacher]     0 loss 4.272 ppl 71.68 (0s)
+  [teacher]   500 loss 1.495 ppl 4.46 (15s)
+  [teacher]  1000 loss 1.339 ppl 3.82 (29s)
+  [teacher]  1500 loss 1.306 ppl 3.69 (43s)
+  [teacher]  2000 loss 1.311 ppl 3.71 (57s)
+  [teacher]  2500 loss 1.234 ppl 3.44 (71s)
+  [teacher]  3000 loss 1.220 ppl 3.39 (85s)
+  [teacher]  3500 loss 1.191 ppl 3.29 (100s)
+  [teacher]  4000 loss 1.211 ppl 3.36 (114s)
+  [teacher]  4500 loss 1.224 ppl 3.40 (128s)
+  [teacher]  5000 loss 1.185 ppl 3.27 (142s)
+  [teacher]  5500 loss 1.195 ppl 3.30 (157s)
+  [teacher]  6000 loss 1.185 ppl 3.27 (171s)
+  [teacher]  6500 loss 1.181 ppl 3.26 (186s)
+  [teacher] held-out ppl 3.251 t1 0.645 t3 0.827 params 1,906,248
+=== Tue Sep  8 15:05:59 EDT 2026 START aux ablation ===
+device: cuda V: 72 cfg HF 84 HS 32 E 28 skip True
+train 19,625,263  val 432,739 symbols
+blob bytes 63936 (int8 49728 + f32 14208)  state 116f macC 38592 macW 11136
+
+=== AUX ABLATION (6000 steps, no distill) ===
+  no-aux : ppl 4.9907 t1 0.5371 t3 0.7487
+  aux    : ppl 5.2131 t1 0.5250 t3 0.7391
+  delta  : dppl +0.2225 dt1 -0.0122 dt3 -0.0097
+=== Tue Sep  8 15:16:24 EDT 2026 START final student (distill+aux) ===
+device: cuda V: 72 cfg HF 84 HS 32 E 28 skip True
+train 19,625,263  val 432,739 symbols
+blob bytes 63936 (int8 49728 + f32 14208)  state 116f macC 38592 macW 11136
+loaded teacher (T=1.5 a=0.70)
+
+Train student steps=16000 aux=True distill=True
+  step     0 loss 9.211 (1s)
+  step   500 loss 3.778 (35s)
+  step  1000 loss 3.491 (69s)
+run_all.sh: line 9:   568 Killed                  python nn_train.py --steps 16000 --distill --T 1.5 --alpha 0.7 --aux_coef 0.3 --export

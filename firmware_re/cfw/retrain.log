@@ -1,0 +1,118 @@
+=== Wed Sep  9 21:33:02 EDT 2026 460k WSD 48k (new deployable pick) ===
+device: cuda V: 72 cfg HF 184 HS 96 E 56 FL 2 skip True
+train 19,625,263  val 432,739 symbols
+blob bytes 479424 (468.2KB int8 440448 + f32 38976)  state 464f macC 359808 macW 80640
+loaded teacher (T=1.5 a=0.30)
+
+Train student max_steps=48000 aux=False distill=True
+  [run] step      0 lr 2.00e-05 auxw 0.000 | val ppl 73.333 t1 0.022 t3 0.045 | best 73.333@0 (2s)
+  [run] step   2000 lr 2.50e-03 auxw 0.000 | val ppl 3.933 t1 0.591 t3 0.792 | best 3.933@2000 (211s)
+  [run] step   4000 lr 2.50e-03 auxw 0.000 | val ppl 3.684 t1 0.607 t3 0.804 | best 3.684@4000 (425s)
+  [run] step   6000 lr 2.50e-03 auxw 0.000 | val ppl 3.597 t1 0.614 t3 0.809 | best 3.597@6000 (666s)
+  [run] step   8000 lr 2.50e-03 auxw 0.000 | val ppl 3.565 t1 0.617 t3 0.809 | best 3.565@8000 (908s)
+  [run] step  10000 lr 2.50e-03 auxw 0.000 | val ppl 3.534 t1 0.620 t3 0.811 | best 3.534@10000 (1152s)
+  [run] step  12000 lr 2.50e-03 auxw 0.000 | val ppl 3.523 t1 0.621 t3 0.811 | best 3.523@12000 (1413s)
+  [run] step  14000 lr 2.50e-03 auxw 0.000 | val ppl 3.506 t1 0.623 t3 0.813 | best 3.506@14000 (1673s)
+  [run] step  16000 lr 2.50e-03 auxw 0.000 | val ppl 3.495 t1 0.624 t3 0.813 | best 3.495@16000 (1934s)
+  [run] step  18000 lr 2.50e-03 auxw 0.000 | val ppl 3.472 t1 0.626 t3 0.815 | best 3.472@18000 (2193s)
+  [run] step  20000 lr 2.50e-03 auxw 0.000 | val ppl 3.474 t1 0.625 t3 0.815 | best 3.472@18000 (2457s)
+  [run] step  22000 lr 2.50e-03 auxw 0.000 | val ppl 3.458 t1 0.626 t3 0.815 | best 3.458@22000 (2712s)
+  [run] step  24000 lr 2.50e-03 auxw 0.000 | val ppl 3.447 t1 0.628 t3 0.815 | best 3.447@24000 (2955s)
+  [run] step  26000 lr 2.50e-03 auxw 0.000 | val ppl 3.453 t1 0.626 t3 0.815 | best 3.447@24000 (3206s)
+  [run] step  28000 lr 2.50e-03 auxw 0.000 | val ppl 3.446 t1 0.627 t3 0.816 | best 3.446@28000 (3463s)
+  [run] step  30000 lr 2.50e-03 auxw 0.000 | val ppl 3.432 t1 0.629 t3 0.817 | best 3.432@30000 (3725s)
+  [run] step  32000 lr 2.50e-03 auxw 0.000 | val ppl 3.448 t1 0.627 t3 0.817 | best 3.432@30000 (3991s)
+  [run] step  34000 lr 2.50e-03 auxw 0.000 | val ppl 3.445 t1 0.628 t3 0.815 | best 3.432@30000 (4244s)
+  [run] step  36000 lr 2.50e-03 auxw 0.000 | val ppl 3.437 t1 0.627 t3 0.816 | best 3.432@30000 (4513s)
+  [run] step  38000 lr 2.50e-03 auxw 0.000 | val ppl 3.432 t1 0.628 t3 0.818 | best 3.432@38000 (4767s)
+  [run] step  40000 lr 2.50e-03 auxw 0.000 | val ppl 3.427 t1 0.629 t3 0.816 | best 3.427@40000 (5014s)
+  [run] step  42000 lr 2.33e-03 auxw 0.000 | val ppl 3.404 t1 0.631 t3 0.817 | best 3.404@42000 (5262s)
+  [run] step  44000 lr 1.48e-03 auxw 0.000 | val ppl 3.372 t1 0.633 t3 0.819 | best 3.372@44000 (5495s)
+  [run] step  46000 lr 4.63e-04 auxw 0.000 | val ppl 3.332 t1 0.638 t3 0.822 | best 3.332@46000 (5729s)
+  [run] step  47999 lr 2.00e-05 auxw 0.000 | val ppl 3.317 t1 0.639 t3 0.822 | best 3.317@47999 (5964s)
+
+---- held-out metrics (best checkpoint) ----
+best @ step 47999
+float : ppl 3.3243 top1 0.6381 top3 0.8218
+int8  : ppl 3.3930 top1 0.6349 top3 0.8159
+
+exported nn_460k_wsd.bin = 479424 B (468.2KB) state 1856B macC 359808
+=== Wed Sep  9 23:12:48 EDT 2026 256k WSD 48k (re-check mid) ===
+device: cuda V: 72 cfg HF 200 HS 80 E 56 FL 1 skip True
+train 19,625,263  val 432,739 symbols
+blob bytes 275136 (268.7KB int8 244992 + f32 30144)  state 280f macC 177792 macW 67200
+loaded teacher (T=1.5 a=0.30)
+
+Train student max_steps=48000 aux=False distill=True
+  [run] step      0 lr 2.00e-05 auxw 0.000 | val ppl 73.408 t1 0.013 t3 0.054 | best 73.408@0 (1s)
+  [run] step   2000 lr 2.50e-03 auxw 0.000 | val ppl 4.278 t1 0.571 t3 0.776 | best 4.278@2000 (173s)
+  [run] step   4000 lr 2.50e-03 auxw 0.000 | val ppl 3.963 t1 0.590 t3 0.790 | best 3.963@4000 (350s)
+  [run] step   6000 lr 2.50e-03 auxw 0.000 | val ppl 3.881 t1 0.597 t3 0.794 | best 3.881@6000 (534s)
+  [run] step   8000 lr 2.50e-03 auxw 0.000 | val ppl 3.837 t1 0.599 t3 0.797 | best 3.837@8000 (716s)
+  [run] step  10000 lr 2.50e-03 auxw 0.000 | val ppl 3.792 t1 0.603 t3 0.799 | best 3.792@10000 (899s)
+  [run] step  12000 lr 2.50e-03 auxw 0.000 | val ppl 3.772 t1 0.603 t3 0.799 | best 3.772@12000 (1080s)
+  [run] step  14000 lr 2.50e-03 auxw 0.000 | val ppl 3.742 t1 0.606 t3 0.800 | best 3.742@14000 (1266s)
+  [run] step  16000 lr 2.50e-03 auxw 0.000 | val ppl 3.740 t1 0.607 t3 0.801 | best 3.740@16000 (1449s)
+  [run] step  18000 lr 2.50e-03 auxw 0.000 | val ppl 3.721 t1 0.607 t3 0.801 | best 3.721@18000 (1631s)
+  [run] step  20000 lr 2.50e-03 auxw 0.000 | val ppl 3.723 t1 0.607 t3 0.800 | best 3.721@18000 (1813s)
+  [run] step  22000 lr 2.50e-03 auxw 0.000 | val ppl 3.704 t1 0.609 t3 0.802 | best 3.704@22000 (1995s)
+  [run] step  24000 lr 2.50e-03 auxw 0.000 | val ppl 3.704 t1 0.607 t3 0.803 | best 3.704@22000 (2177s)
+  [run] step  26000 lr 2.50e-03 auxw 0.000 | val ppl 3.683 t1 0.610 t3 0.804 | best 3.683@26000 (2360s)
+  [run] step  28000 lr 2.50e-03 auxw 0.000 | val ppl 3.682 t1 0.610 t3 0.804 | best 3.682@28000 (2542s)
+  [run] step  30000 lr 2.50e-03 auxw 0.000 | val ppl 3.668 t1 0.612 t3 0.804 | best 3.668@30000 (2726s)
+  [run] step  32000 lr 2.50e-03 auxw 0.000 | val ppl 3.662 t1 0.611 t3 0.805 | best 3.662@32000 (2909s)
+  [run] step  34000 lr 2.50e-03 auxw 0.000 | val ppl 3.668 t1 0.609 t3 0.804 | best 3.662@32000 (3091s)
+  [run] step  36000 lr 2.50e-03 auxw 0.000 | val ppl 3.670 t1 0.609 t3 0.804 | best 3.662@32000 (3264s)
+  [run] step  38000 lr 2.50e-03 auxw 0.000 | val ppl 3.686 t1 0.610 t3 0.804 | best 3.662@32000 (3435s)
+  [run] step  40000 lr 2.50e-03 auxw 0.000 | val ppl 3.663 t1 0.609 t3 0.804 | best 3.662@32000 (3618s)
+  [run] step  42000 lr 2.33e-03 auxw 0.000 | val ppl 3.686 t1 0.608 t3 0.804 | best 3.662@32000 (3800s)
+  [run] step  44000 lr 1.48e-03 auxw 0.000 | val ppl 3.627 t1 0.613 t3 0.806 | best 3.627@44000 (3982s)
+  [run] step  46000 lr 4.63e-04 auxw 0.000 | val ppl 3.596 t1 0.617 t3 0.808 | best 3.596@46000 (4165s)
+  [run] step  47999 lr 2.00e-05 auxw 0.000 | val ppl 3.574 t1 0.618 t3 0.809 | best 3.574@47999 (4346s)
+
+---- held-out metrics (best checkpoint) ----
+best @ step 47999
+float : ppl 3.5826 top1 0.6171 top3 0.8084
+int8  : ppl 3.6649 top1 0.6124 top3 0.8024
+
+exported nn_256k_wsd.bin = 275136 B (268.7KB) state 1120B macC 177792
+=== Thu Sep 10 00:25:26 EDT 2026 128k batch512 WSD 48k (batch study) ===
+device: cuda V: 72 cfg HF 132 HS 48 E 40 FL 1 skip True
+train 19,625,263  val 432,739 symbols
+blob bytes 130608 (127.5KB int8 109872 + f32 20736)  state 180f macC 83952 macW 25920
+loaded teacher (T=1.5 a=0.30)
+
+Train student max_steps=48000 aux=False distill=True
+  [run] step      0 lr 2.00e-05 auxw 0.000 | val ppl 75.877 t1 0.015 t3 0.032 | best 75.877@0 (1s)
+  [run] step   2000 lr 3.50e-03 auxw 0.000 | val ppl 4.602 t1 0.554 t3 0.761 | best 4.602@2000 (317s)
+  [run] step   4000 lr 3.50e-03 auxw 0.000 | val ppl 4.301 t1 0.571 t3 0.775 | best 4.301@4000 (669s)
+  [run] step   6000 lr 3.50e-03 auxw 0.000 | val ppl 4.194 t1 0.578 t3 0.781 | best 4.194@6000 (1025s)
+  [run] step   8000 lr 3.50e-03 auxw 0.000 | val ppl 4.146 t1 0.580 t3 0.783 | best 4.146@8000 (1381s)
+  [run] step  10000 lr 3.50e-03 auxw 0.000 | val ppl 4.116 t1 0.582 t3 0.784 | best 4.116@10000 (1736s)
+  [run] step  12000 lr 3.50e-03 auxw 0.000 | val ppl 4.094 t1 0.582 t3 0.784 | best 4.094@12000 (2089s)
+  [run] step  14000 lr 3.50e-03 auxw 0.000 | val ppl 4.065 t1 0.586 t3 0.785 | best 4.065@14000 (2444s)
+  [run] step  16000 lr 3.50e-03 auxw 0.000 | val ppl 4.061 t1 0.585 t3 0.786 | best 4.061@16000 (2800s)
+  [run] step  18000 lr 3.50e-03 auxw 0.000 | val ppl 4.039 t1 0.586 t3 0.786 | best 4.039@18000 (3157s)
+  [run] step  20000 lr 3.50e-03 auxw 0.000 | val ppl 4.056 t1 0.586 t3 0.786 | best 4.039@18000 (3511s)
+  [run] step  22000 lr 3.50e-03 auxw 0.000 | val ppl 4.027 t1 0.587 t3 0.788 | best 4.027@22000 (3866s)
+  [run] step  24000 lr 3.50e-03 auxw 0.000 | val ppl 4.037 t1 0.586 t3 0.787 | best 4.027@22000 (4221s)
+  [run] step  26000 lr 3.50e-03 auxw 0.000 | val ppl 4.040 t1 0.586 t3 0.787 | best 4.027@22000 (4575s)
+  [run] step  28000 lr 3.50e-03 auxw 0.000 | val ppl 4.016 t1 0.588 t3 0.788 | best 4.016@28000 (4942s)
+  [run] step  30000 lr 3.50e-03 auxw 0.000 | val ppl 4.029 t1 0.587 t3 0.787 | best 4.016@28000 (25277s)
+  [run] step  32000 lr 3.50e-03 auxw 0.000 | val ppl 4.005 t1 0.588 t3 0.789 | best 4.005@32000 (25548s)
+  [run] step  34000 lr 3.50e-03 auxw 0.000 | val ppl 4.003 t1 0.588 t3 0.788 | best 4.003@34000 (25840s)
+  [run] step  36000 lr 3.50e-03 auxw 0.000 | val ppl 3.999 t1 0.588 t3 0.789 | best 3.999@36000 (26136s)
+  [run] step  38000 lr 3.50e-03 auxw 0.000 | val ppl 4.022 t1 0.587 t3 0.788 | best 3.999@36000 (26435s)
+  [run] step  40000 lr 3.50e-03 auxw 0.000 | val ppl 3.999 t1 0.588 t3 0.788 | best 3.999@36000 (26733s)
+  [run] step  42000 lr 3.27e-03 auxw 0.000 | val ppl 3.988 t1 0.589 t3 0.789 | best 3.988@42000 (27033s)
+  [run] step  44000 lr 2.06e-03 auxw 0.000 | val ppl 3.972 t1 0.589 t3 0.789 | best 3.972@44000 (27336s)
+  [run] step  46000 lr 6.42e-04 auxw 0.000 | val ppl 3.946 t1 0.592 t3 0.791 | best 3.946@46000 (27636s)
+  [run] step  47999 lr 2.00e-05 auxw 0.000 | val ppl 3.931 t1 0.593 t3 0.791 | best 3.931@47999 (27939s)
+
+---- held-out metrics (best checkpoint) ----
+best @ step 47999
+float : ppl 3.9397 top1 0.5926 top3 0.7906
+int8  : ppl 4.0642 top1 0.5880 top3 0.7818
+
+exported nn_128k_b512.bin = 130608 B (127.5KB) state 720B macC 83952
+=== Thu Sep 10 08:11:15 EDT 2026 RETRAIN DONE ===

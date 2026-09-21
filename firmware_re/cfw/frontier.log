@@ -1,0 +1,38 @@
+eval set: 200x400 = 80,000 positions
+
+== dense NN (int8) ==
+  nn_64k         62.4KB  ppl  4.650 t1 0.549 t3 0.761
+  nn_128k       127.5KB  ppl  4.040 t1 0.587 t3 0.787
+  nn_256k       268.7KB  ppl  3.623 t1 0.614 t3 0.805
+  nn_256k_fl2   262.5KB  ppl  3.578 t1 0.616 t3 0.808
+  nn_400k       403.3KB  ppl  3.421 t1 0.630 t3 0.817
+  nn_460k       468.2KB  ppl  3.380 t1 0.633 t3 0.819
+
+== building 8-gram ==
+  built (14s)
+
+== pure Markov (mkn) ==
+  2-gram      7.8KB  ppl 13.434 t1 0.270 t3 0.502
+  3-gram    121.6KB  ppl  8.502 t1 0.381 t3 0.632
+  4-gram    857.5KB  ppl  5.607 t1 0.488 t3 0.736
+  5-gram   3702.2KB  ppl  4.494 t1 0.558 t3 0.785
+  6-gram  11672.1KB  ppl  4.128 t1 0.599 t3 0.802
+  7-gram  30020.7KB  ppl  4.011 t1 0.619 t3 0.813
+  8-gram  66055.1KB  ppl  4.023 t1 0.629 t3 0.818
+
+== pure Markov (wb) ==
+  2-gram      7.8KB  ppl 13.432 t1 0.270 t3 0.502
+  3-gram    121.6KB  ppl  8.495 t1 0.381 t3 0.632
+  4-gram    857.5KB  ppl  5.611 t1 0.488 t3 0.736
+  5-gram   3702.2KB  ppl  4.513 t1 0.558 t3 0.785
+  6-gram  11672.1KB  ppl  4.174 t1 0.599 t3 0.802
+  7-gram  30020.7KB  ppl  4.088 t1 0.618 t3 0.812
+  8-gram  66055.1KB  ppl  4.156 t1 0.628 t3 0.816
+
+== sparse Markov (8-gram pruned to budget, mkn) ==
+  target 64KB -> min_count 201, actual 493.9KB, ppl 47.602 t1 0.535 t3 0.736
+  target 128KB -> min_count 201, actual 493.9KB, ppl 47.602 t1 0.535 t3 0.736
+  target 256KB -> min_count 201, actual 493.9KB, ppl 47.602 t1 0.535 t3 0.736
+  target 460KB -> min_count 201, actual 493.9KB, ppl 47.602 t1 0.535 t3 0.736
+
+wrote frontier_results.csv (24 rows, 119s)
